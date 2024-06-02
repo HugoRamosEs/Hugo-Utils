@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apagar PC - Personalizado</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="../../img/icons/fav-icon.png">
+</head>
+<body>
+    <form id="custom_timer">
+        <h1>Tiempo personalizado</h1>
+        <div>
+            <label for="hours">Horas</label>
+            <input type="number" id="hours" min="0" max="23" placeholder="Introduce hora/s...">
+        </div>
+        <div>
+            <label for="minutes">Minutos</label>
+            <input type="number" id="minutes" min="0" max="59" placeholder="Introduce minuto/s...">
+        </div>
+        <button type="submit">Aceptar</button>
+        <button type="button" onclick="window.close()">Cancelar</button>
+    </form>
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        document.getElementById('custom_timer').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const hours = parseInt(document.getElementById('hours').value) || 0;
+            const minutes = parseInt(document.getElementById('minutes').value) || 0;
+            const totalTime = hours * 60 + minutes;
+            ipcRenderer.send('set-shutdown-timer', totalTime);
+            window.close();
+        });
+    </script>
+</body>
+</html>

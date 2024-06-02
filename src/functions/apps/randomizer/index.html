@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Randomizer</title>
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="icon" type="image/x-icon" href="../../../img/icons/fav-icon.png">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Randomizer</h1>
+        <input type="text" id="newOption" placeholder="Añade una opción...">
+        <button id="add" onclick="addOption()">Añadir</button>
+        <button id="randomize" onclick="pickRandom()">Elegir al azar</button>
+        <button id="reset" onclick="resetOptions()">Reiniciar</button>
+        <span id="result" style="display: none;"></span>
+        <hr>
+        <div id="options" class="options">
+            <!-- Options will be displayed here -->
+        </div>
+        <script>
+            const { ipcRenderer } = require('electron');
+            const options = [];
+            const resultSpan = document.getElementById('result');
+
+            const pickRandom = async () => {
+                try {
+                    const chosenOption = await ipcRenderer.invoke('set-randomize', options);
+                    resultSpan.textContent = chosenOption;
+                    resultSpan.style.display = 'block';
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+
+            function addOption() {
+                const optionInput = document.getElementById('newOption');
+                const optionValue = optionInput.value.trim();
+                if (optionValue && optionValue.length > 0) {
+                    options.push(optionValue);
+                    optionInput.value = '';
+                    updateOptionsList();
+                }
+            }
+
+            function updateOptionsList() {
+                const optionsList = document.getElementById('options');
+                optionsList.innerHTML = '';
+                options.forEach((option) => {
+                    const optionItem = document.createElement('span');
+                    optionItem.className = 'option-item';
+                    optionItem.textContent = option;
+                    optionsList.appendChild(optionItem);
+                });
+            }
+
+            function resetOptions() {
+                options.length = 0;
+                updateOptionsList();
+                const result = document.getElementById('result');
+                result.textContent = '';
+                result.style.display = 'none';
+            }
+        </script>
+    </div>
+</body>
+
+</html>

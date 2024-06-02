@@ -1,0 +1,30 @@
+{
+  "name": "hugo-utils",
+  "productName": "Hugo-Utils",
+  "version": "1.0.0",
+  "description": "Application with different utilities",
+  "main": "main.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "electron ./src/main.js"
+  },
+  "keywords": [],
+  "author": "Hugo Ramos Montesinos",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^30.0.9",
+    "electron-context-menu": "^4.0.0",
+    "robotjs": "^0.6.0",
+    "sudo-prompt": "^9.2.1"
+  },
+  "build": {
+    "win": {
+      "target": "nsis",
+      "icon": "./src/img/icons/icon_256px.ico",
+      "appId": "Hugo-Utils"
+    }
+  },
+  "devDependencies": {
+    "@electron/rebuild": "^3.6.0"
+  }
+}
