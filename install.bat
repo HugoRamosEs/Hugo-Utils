@@ -40,15 +40,41 @@ echo.
 echo Python installation check...
 python -c "import platform; print(platform.python_version())" >nul 2>&1
 if %errorlevel% neq 0 (
-    echo Python is not installed.
-    pause
-    goto :eof
+    echo Python is not installed, installing Python...
+    choco install python -y
+    if %errorlevel% neq 0 (
+        echo Failed to install Python.
+        pause
+        goto :eof
+    )
+    rem Verify Python installation
+    python -c "import platform; print(platform.python_version())" >nul 2>&1
+    if %errorlevel% neq 0 (
+        echo Python installation failed.
+        pause
+        goto :eof
+    ) else (
+        echo Python installed successfully.
+    )
 ) else (
     echo Python is already installed.
-    echo Installing pip and setuptools...
-    python -m ensurepip --upgrade
-    python -m pip install --upgrade setuptools
 )
+
+rem Install pip and setuptools
+echo Installing pip and setuptools...
+python -m ensurepip --upgrade
+if %errorlevel% neq 0 (
+    echo Failed to install ensurepip.
+    pause
+    goto :eof
+)
+python -m pip install --upgrade setuptools
+if %errorlevel% neq 0 (
+    echo Failed to install setuptools.
+    pause
+    goto :eof
+)
+echo pip and setuptools installed successfully.
 
 rem Install node-gyp global
 echo.
