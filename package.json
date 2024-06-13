@@ -1,7 +1,7 @@
 {
   "name": "hugo-utils",
   "productName": "Hugo-Utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Application with different utilities",
   "main": "main.js",
   "type": "commonjs",

@@ -55,7 +55,10 @@ app.on('ready', () => {
         },
         {
             label: 'Ratón Robot',
-            click: () => robotMouse(),
+            submenu: [
+                { label: 'Activar en la pantalla principal', click: () => robotMouse(0) },
+                { label: 'Activar en la pantalla secundaria', click: () => robotMouse(1) },
+            ],
         },
         {
             label: 'Abrir League Of Legends', 
